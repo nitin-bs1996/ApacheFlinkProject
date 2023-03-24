@@ -29,7 +29,7 @@ public class FilterMovies {
             return movie.getGenres().contains("Drama");
         }
     });
-        filteredMovies.writeAsText("./output_files/filtered-output/");
+        filteredMovies.writeAsText("./output_files/filtered-output/",org.apache.flink.core.fs.FileSystem.WriteMode.OVERWRITE);
         env.execute();
     }
 }
