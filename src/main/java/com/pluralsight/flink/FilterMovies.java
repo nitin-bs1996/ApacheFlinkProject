@@ -7,10 +7,15 @@ import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.util.Collector;
+import org.apache.flink.api.java.utils.ParameterTool;
+
 public class FilterMovies {
     public static void main(String[] args) throws Exception {
     ExecutionEnvironment env=ExecutionEnvironment.getExecutionEnvironment();
-    DataSet<Tuple3<Long, String, String>> lines = env.readCsvFile("./input_files/movies.csv")
+    ParameterTool parameters = ParameterTool.fromArgs(args);
+    String input = parameters.getRequired("input");
+    String output = parameters.getRequired("output");
+    DataSet<Tuple3<Long, String, String>> lines = env.readCsvFile(input)
             .ignoreFirstLine()
             .parseQuotedStrings('"')
             .ignoreInvalidLines()
@@ -29,7 +34,7 @@ public class FilterMovies {
             return movie.getGenres().contains("Drama");
         }
     });
-        filteredMovies.writeAsText("./output_files/filtered-output/",org.apache.flink.core.fs.FileSystem.WriteMode.OVERWRITE);
+        filteredMovies.writeAsText(output,org.apache.flink.core.fs.FileSystem.WriteMode.OVERWRITE);
         env.execute();
     }
 }
