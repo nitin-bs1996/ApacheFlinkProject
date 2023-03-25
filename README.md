@@ -31,5 +31,7 @@ http://localhost:8081/
 6. Upload the jar under `Submit Job` option.
 
 7. Provide the details regarding the class name ,arguments, and parallelism.
-
+```
+java -cp ./out/artifacts/flink_pluralsight_course_jar/flink_pluralsight_course.jar com.pluralsight.FilterMovies --input "./input_files/movies.csv" --output "./output/filtered_output/"
+```
 8. Submit Job.
